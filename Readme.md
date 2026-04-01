@@ -185,13 +185,7 @@ This specification and related materials are licensed under the **MIT License** 
 
 ---
 
-## 📮 Contact & Resources
 
-- **Specification Home**: [https://spec.sirraya.com/tdf](https://spec.sirraya.com/tdf)
-- **GitHub Repository**: [https://github.com/sirrayalabs/trust-decay-framework](https://github.com/sirrayalabs/trust-decay-framework)
-- **Issues & Discussions**: [https://github.com/sirrayalabs/trust-decay-framework/issues](https://github.com/sirrayalabs/trust-decay-framework/issues)
-
----
 
 **Trust Decay Framework** — Making digital trust dynamic, privacy-preserving, and quantum-ready.
 
