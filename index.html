@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trust Decay Framework (TDF) — Open Specification</title>
+    <title>Trust Decay Framework (TDF) Specification</title>
     <style>
         * {
             margin: 0;
@@ -12,115 +12,126 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
             color: #1a1a2e;
-            background: #fafafa;
+            background: #f5f7fa;
         }
         
+        /* Container */
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 2rem;
         }
         
-        /* Header */
+        /* Header Section */
         .spec-header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #0a0f2a 0%, #1a2a3a 100%);
             color: white;
             padding: 3rem 2rem;
             border-radius: 1rem;
             margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
         
         .spec-header h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
         }
         
         .spec-header .subtitle {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             opacity: 0.9;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         
-        .spec-header .version {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 0.25rem 0.75rem;
+        .spec-header .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .spec-header .meta-item {
+            background: rgba(255,255,255,0.15);
+            padding: 0.3rem 0.8rem;
             border-radius: 2rem;
-            font-size: 0.875rem;
-            margin-top: 1rem;
         }
         
-        .spec-header .status {
+        .status-badge {
             display: inline-block;
             background: #f59e0b;
             color: #1a1a2e;
-            padding: 0.25rem 0.75rem;
+            padding: 0.3rem 0.8rem;
             border-radius: 2rem;
-            font-size: 0.875rem;
-            margin-left: 0.5rem;
+            font-weight: 600;
+            font-size: 0.8rem;
         }
         
-        /* Navigation */
-        .spec-nav {
+        /* Table of Contents */
+        .toc {
             background: white;
-            border-radius: 0.75rem;
-            padding: 1rem;
+            border-radius: 1rem;
+            padding: 1.5rem 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 1rem;
-            z-index: 100;
         }
         
-        .spec-nav ul {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            list-style: none;
+        .toc h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #0f172a;
+            border-left: 4px solid #3b82f6;
+            padding-left: 0.8rem;
         }
         
-        .spec-nav a {
-            color: #1e293b;
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 0.5rem;
+        }
+        
+        .toc a {
+            color: #3b82f6;
             text-decoration: none;
-            font-weight: 500;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            transition: background 0.2s;
+            display: block;
+            padding: 0.3rem 0;
         }
         
-        .spec-nav a:hover {
-            background: #f1f5f9;
+        .toc a:hover {
+            text-decoration: underline;
         }
         
         /* Sections */
         section {
             background: white;
-            border-radius: 0.75rem;
+            border-radius: 1rem;
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         h2 {
-            font-size: 1.75rem;
-            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 3px solid #3b82f6;
             display: inline-block;
-        }
-        
-        h3 {
-            font-size: 1.25rem;
-            margin: 1.5rem 0 1rem 0;
             color: #0f172a;
         }
         
+        h3 {
+            font-size: 1.4rem;
+            margin: 1.8rem 0 1rem 0;
+            color: #1e293b;
+        }
+        
         h4 {
-            font-size: 1.1rem;
-            margin: 1rem 0 0.5rem 0;
+            font-size: 1.2rem;
+            margin: 1.2rem 0 0.6rem 0;
             color: #334155;
         }
         
@@ -128,6 +139,59 @@
             margin-bottom: 1rem;
         }
         
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.9rem;
+        }
+        
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background: #f1f5f9;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+        
+        /* Code blocks */
+        pre {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.2rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            margin: 1.2rem 0;
+            line-height: 1.4;
+        }
+        
+        code {
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #d14;
+        }
+        
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        
+        /* Notes and examples */
         .note {
             background: #fef9e7;
             border-left: 4px solid #f59e0b;
@@ -146,89 +210,97 @@
         
         .example {
             background: #f1f5f9;
+            border-left: 4px solid #3b82f6;
             padding: 1rem;
+            margin: 1rem 0;
             border-radius: 0.5rem;
-            margin: 1rem 0;
-            font-family: 'SF Mono', 'Monaco', monospace;
-            font-size: 0.875rem;
-            overflow-x: auto;
         }
         
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
-        
-        th, td {
-            border: 1px solid #e2e8f0;
-            padding: 0.75rem;
-            text-align: left;
-        }
-        
-        th {
-            background: #f8fafc;
+        .example-title {
             font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e40af;
         }
         
-        .trust-badge {
+        /* Trust badges */
+        .level-badge {
             display: inline-block;
-            padding: 0.25rem 0.75rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 2rem;
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
+        }
+        .level-4 { background: #059669; color: white; }
+        .level-3 { background: #3b82f6; color: white; }
+        .level-2 { background: #f59e0b; color: white; }
+        .level-1 { background: #dc2626; color: white; }
+        
+        /* Lists */
+        ul, ol {
+            margin: 0.8rem 0 0.8rem 1.8rem;
         }
         
-        .trust-4 { background: #059669; color: white; }
-        .trust-3 { background: #3b82f6; color: white; }
-        .trust-2 { background: #f59e0b; color: white; }
-        .trust-1 { background: #dc2626; color: white; }
-        
-        code {
-            background: #f1f5f9;
-            padding: 0.2rem 0.4rem;
-            border-radius: 0.25rem;
-            font-family: monospace;
-            font-size: 0.875rem;
+        li {
+            margin: 0.4rem 0;
         }
         
-        pre {
-            background: #0f172a;
-            color: #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-            font-family: monospace;
-            font-size: 0.875rem;
+        dl {
             margin: 1rem 0;
         }
         
+        dt {
+            font-weight: 600;
+            margin-top: 0.8rem;
+            color: #1e293b;
+        }
+        
+        dd {
+            margin-left: 1.5rem;
+            color: #475569;
+        }
+        
+        /* Footer */
         .footer {
             text-align: center;
             padding: 2rem;
             color: #64748b;
-            font-size: 0.875rem;
+            font-size: 0.85rem;
             border-top: 1px solid #e2e8f0;
             margin-top: 2rem;
         }
         
-        .badge {
-            display: inline-block;
-            background: #e2e8f0;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            margin-right: 0.5rem;
-        }
-        
+        /* Responsive */
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
             }
-            .spec-nav ul {
-                flex-direction: column;
-                gap: 0.5rem;
+            .spec-header h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            h3 {
+                font-size: 1.2rem;
+            }
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .toc {
+                break-after: avoid;
+            }
+            section {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .spec-header {
+                background: #1a2a3a;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
         }
     </style>
@@ -238,130 +310,122 @@
         <!-- Header -->
         <div class="spec-header">
             <h1>Trust Decay Framework (TDF)</h1>
-            <div class="subtitle">A Confidence-Based Classification System for Digital Credentials</div>
-            <div>
-                <span class="version">Version 1.0.0</span>
-                <span class="status">Editor's Draft</span>
-            </div>
-            <div style="margin-top: 1rem; font-size: 0.875rem;">
-                <strong>Sirraya Labs</strong> • Open Specification • April 2026
+            <div class="subtitle">A Confidence-Based Classification System for Verifiable Credentials</div>
+            <div class="meta">
+                <span class="meta-item">Version 1.0.0</span>
+                <span class="meta-item status-badge">Editor's Draft</span>
+                <span class="meta-item">April 2026</span>
+                <span class="meta-item">Sirraya Labs</span>
+                <span class="meta-item">MIT License</span>
             </div>
         </div>
         
-        <!-- Navigation -->
-        <div class="spec-nav">
-            <ul>
-                <li><a href="#introduction">Introduction</a></li>
-                <li><a href="#core-concepts">Core Concepts</a></li>
-                <li><a href="#trust-levels">Trust Levels</a></li>
-                <li><a href="#credential-format">Credential Format</a></li>
-                <li><a href="#decay-calculation">Decay Calculation</a></li>
-                <li><a href="#proofs">Proofs & Heartbeats</a></li>
-                <li><a href="#risk-signals">Risk Signals</a></li>
-                <li><a href="#cryptography">Cryptography</a></li>
-                <li><a href="#privacy">Privacy</a></li>
-                <li><a href="#implementation">Implementation</a></li>
-            </ul>
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <div class="toc-grid">
+                <a href="#introduction">1. Introduction</a>
+                <a href="#terminology">2. Terminology</a>
+                <a href="#confidence-levels">3. Confidence Levels</a>
+                <a href="#credential-format">4. Credential Format</a>
+                <a href="#decay-calculation">5. Trust Decay Calculation</a>
+                <a href="#proof-types">6. Proof Types and Requirements</a>
+                <a href="#heartbeat">7. Heartbeat Mechanism</a>
+                <a href="#risk-signals">8. Risk Signals</a>
+                <a href="#cryptography">9. Cryptographic Requirements</a>
+                <a href="#privacy">10. Privacy Architecture</a>
+                <a href="#policy-evaluation">11. Policy Evaluation</a>
+                <a href="#security">12. Security Considerations</a>
+                <a href="#references">13. References</a>
+            </div>
         </div>
         
-        <!-- Abstract -->
-        <section id="abstract">
-            <h2>Abstract</h2>
-            <p>
-                The <strong>Trust Decay Framework (TDF)</strong> defines a standardized approach for 
-                assessing and expressing the current trustworthiness of a digital credential over time. 
-                Trust is not static—it naturally diminishes without ongoing evidence of security and 
-                identity consistency. This specification provides a mechanism for credentials to carry 
-                a confidence level that decays according to predictable rules and can be refreshed 
-                through cryptographic proofs, heartbeat mechanisms, and risk assessment.
-            </p>
-            <p>
-                Built on established standards like W3C Decentralized Identifiers (DIDs) and Verifiable 
-                Credentials (VCs), TDF enables issuers to create credentials with an initial trust level, 
-                and verifiers to evaluate the current trust level based on age, cryptographic strength, 
-                zero-knowledge proofs, and risk signals.
-            </p>
-            <div class="note">
-                <strong>📘 About This Document</strong><br>
-                This is an open specification developed by Sirraya Labs. It is intended for implementation 
-                experimentation and community feedback. All content is licensed under the MIT License.
-            </div>
-        </section>
-        
-        <!-- Introduction -->
+        <!-- 1. Introduction -->
         <section id="introduction">
             <h2>1. Introduction</h2>
-            <p>
-                In digital identity systems, trust in a credential should not be permanent. A credential 
-                issued today may be less trustworthy tomorrow if the holder's device changes, if 
-                suspicious activity is detected, or simply because time has passed without re-verification.
-            </p>
-            <p>
-                The Trust Decay Framework addresses this by introducing:
-            </p>
-            <ul>
-                <li><strong>Confidence Levels</strong> — A four-tier trust hierarchy (Levels 1-4)</li>
-                <li><strong>Time-Based Decay</strong> — Trust naturally diminishes over time</li>
-                <li><strong>Refresh Mechanisms</strong> — Heartbeats and proofs can restore trust</li>
-                <li><strong>Risk Signals</strong> — Anomalies can reduce trust immediately</li>
-                <li><strong>Privacy Preservation</strong> — Using pairwise identifiers and zero-knowledge proofs</li>
-            </ul>
             
-            <h3>1.1 Design Principles</h3>
+            <h3>1.1 Problem Statement</h3>
+            <p>
+                Current digital credential systems treat trust as binary—a credential is either valid or invalid. 
+                This approach fails to capture the nuanced reality that trust degrades over time and is affected 
+                by context, behavior, and security events. A credential issued six months ago should not carry 
+                the same weight as one issued yesterday, yet most systems have no mechanism to express this 
+                distinction.
+            </p>
+            
+            <h3>1.2 Solution Overview</h3>
+            <p>
+                The Trust Decay Framework (TDF) introduces a continuous trust assessment model where credentials 
+                carry a confidence level that diminishes predictably over time and can be refreshed through 
+                cryptographic proofs. This enables:
+            </p>
             <ul>
-                <li><strong>Privacy by Default</strong> — No global identifiers; pairwise relationships only</li>
-                <li><strong>Decentralized Trust</strong> — No central authority required for verification</li>
-                <li><strong>Cryptographic Agility</strong> — Support for both classical and post-quantum algorithms</li>
-                <li><strong>Deterministic Calculation</strong> — Trust levels are computed, not subjective</li>
-                <li><strong>Open Standard</strong> — Freely implementable without licensing restrictions</li>
+                <li><strong>Fine-grained trust decisions</strong> — Beyond binary valid/invalid</li>
+                <li><strong>Time-aware security</strong> — Older credentials naturally require re-verification</li>
+                <li><strong>Risk-responsive adaptation</strong> — Trust adjusts to detected anomalies</li>
+                <li><strong>Privacy-preserving proofs</strong> — Zero-knowledge mechanisms protect sensitive data</li>
             </ul>
             
             <div class="example">
-                <strong>💡 Example: Banking Application</strong><br>
-                A bank requires Level 3 (High Trust) for wire transfers. The user holds a Level 4 
-                (Maximum Trust) credential that has been active for 45 days. The system calculates 
-                the current trust level, finds it at Level 3, and grants access.
+                <div class="example-title">📘 Example: Banking Wire Transfer</div>
+                <p>A bank requires Level 3 (High Trust) for wire transfers. The user holds a Level 4 credential 
+                issued 45 days ago. The system calculates the current trust level, determines it has decayed 
+                to Level 3, and grants access without additional friction. If the credential had aged 90 days, 
+                it would have decayed to Level 2 and the bank would request re-authentication.</p>
             </div>
+            
+            <h3>1.3 Design Principles</h3>
+            <table>
+                <thead>
+                    <tr><th>Principle</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Privacy by Default</strong></td><td>No global identifiers; all relationships use pairwise identifiers</td></tr>
+                    <tr><td><strong>Decentralized Trust</strong></td><td>No central authority required for verification</td></tr>
+                    <tr><td><strong>Cryptographic Agility</strong></td><td>Support for both classical and post-quantum algorithms</td></tr>
+                    <tr><td><strong>Deterministic Computation</strong></td><td>Trust levels are calculated, not subjectively assigned</td></tr>
+                    <tr><td><strong>Open Standard</strong></td><td>Freely implementable without licensing restrictions</td></tr>
+                </tbody>
+            </table>
         </section>
         
-        <!-- Core Concepts -->
-        <section id="core-concepts">
-            <h2>2. Core Concepts</h2>
+        <!-- 2. Terminology -->
+        <section id="terminology">
+            <h2>2. Terminology</h2>
             
-            <h3>2.1 Terminology</h3>
-            <dl style="margin-left: 1rem;">
-                <dt><strong>Confidence Level</strong></dt>
-                <dd>A four-tier classification (Level 1 to Level 4) indicating the current 
-                trustworthiness of a credential, with Level 4 being the highest.</dd>
+            <dl>
+                <dt>Confidence Level</dt>
+                <dd>A four-tier classification (Level 1 to Level 4) indicating the current trustworthiness of a credential.</dd>
                 
-                <dt><strong>Trust Half-Life</strong></dt>
-                <dd>The period after which confidence decreases by 50% without refreshment.</dd>
+                <dt>Half-Life</dt>
+                <dd>The duration after which confidence decreases by 50% without refreshment.</dd>
                 
-                <dt><strong>Heartbeat</strong></dt>
-                <dd>A cryptographic proof that the credential holder remains in control, used to 
-                slow or reverse trust decay.</dd>
+                <dt>Heartbeat</dt>
+                <dd>A cryptographic proof confirming continued holder control, used to slow or reverse trust decay.</dd>
                 
-                <dt><strong>Risk Signal</strong></dt>
-                <dd>An observable event that may indicate compromised security, triggering 
-                immediate trust reduction.</dd>
+                <dt>Risk Signal</dt>
+                <dd>An observable event that may indicate potential security compromise.</dd>
                 
-                <dt><strong>Zero-Knowledge Proof (ZKP)</strong></dt>
-                <dd>A cryptographic method that proves a statement is true without revealing the 
-                underlying data. Used to verify risk status without exposing sensitive information.</dd>
+                <dt>Zero-Knowledge Proof (ZKP)</dt>
+                <dd>A cryptographic method that proves a statement is true without revealing the underlying data.</dd>
                 
-                <dt><strong>Pairwise Identifier</strong></dt>
-                <dd>A unique identifier derived for each relationship, preventing correlation 
-                across different services.</dd>
+                <dt>Pairwise Identifier</dt>
+                <dd>A unique identifier derived for each relationship, preventing correlation across different services.</dd>
+                
+                <dt>Nullifier</dt>
+                <dd>A unique value that prevents replay attacks while maintaining unlinkability.</dd>
+                
+                <dt>Verifiable Credential (VC)</dt>
+                <dd>A W3C-standard credential with cryptographic proof of issuance.</dd>
             </dl>
         </section>
         
-        <!-- Trust Levels -->
-        <section id="trust-levels">
-            <h2>3. Trust Levels</h2>
-            <p>
-                The framework defines four confidence levels. Each level has distinct 
-                characteristics, proof requirements, and decay properties.
-            </p>
+        <!-- 3. Confidence Levels -->
+        <section id="confidence-levels">
+            <h2>3. Confidence Levels</h2>
+            
+            <h3>3.1 Level Definitions</h3>
+            <p>The framework defines four confidence levels with distinct properties and proof requirements.</p>
             
             <table>
                 <thead>
@@ -369,73 +433,81 @@
                         <th>Level</th>
                         <th>Name</th>
                         <th>Half-Life</th>
-                        <th>Typical Use Cases</th>
                         <th>Required Proofs</th>
+                        <th>Use Cases</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><span class="trust-badge trust-1">Level 1</span></td>
-                        <td>Basic Trust</td>
-                        <td>7 days</td>
-                        <td>Anonymous access, low-risk services</td>
-                        <td>None</td>
-                    </tr>
-                    <tr>
-                        <td><span class="trust-badge trust-2">Level 2</span></td>
-                        <td>Standard Trust</td>
-                        <td>90 days</td>
-                        <td>Standard enterprise, retail banking</td>
-                        <td>No recent high-risk activity (24h)</td>
-                    </tr>
-                    <tr>
-                        <td><span class="trust-badge trust-3">Level 3</span></td>
-                        <td>High Trust</td>
-                        <td>90 days</td>
-                        <td>High-value banking, corporate access</td>
-                        <td>No high-risk + device consistency (7d)</td>
-                    </tr>
-                    <tr>
-                        <td><span class="trust-badge trust-4">Level 4</span></td>
+                        <td><span class="level-badge level-4">Level 4</span></td>
                         <td>Maximum Trust</td>
                         <td>30 days</td>
+                        <td>NoHighRisk24h + DeviceConsistency30d + GeoStable72h</td>
                         <td>Government services, critical systems</td>
-                        <td>No high-risk + device consistency (30d) + stable location (72h)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="level-badge level-3">Level 3</span></td>
+                        <td>High Trust</td>
+                        <td>90 days</td>
+                        <td>NoHighRisk24h + DeviceConsistency7d</td>
+                        <td>High-value banking, corporate access</td>
+                    </tr>
+                    <tr>
+                        <td><span class="level-badge level-2">Level 2</span></td>
+                        <td>Standard Trust</td>
+                        <td>90 days</td>
+                        <td>NoHighRisk24h</td>
+                        <td>Enterprise applications, retail banking</td>
+                    </tr>
+                    <tr>
+                        <td><span class="level-badge level-1">Level 1</span></td>
+                        <td>Basic Trust</td>
+                        <td>7 days</td>
+                        <td>None</td>
+                        <td>Anonymous access, low-risk services</td>
                     </tr>
                 </tbody>
             </table>
             
             <div class="note">
-                <strong>Why Different Half-Lives?</strong> Higher trust levels require more frequent 
-                refreshment because they grant access to more sensitive resources. Level 4 decays 
-                in 30 days, while Level 2 can last 90 days without renewal.
+                <strong>Why Different Half-Lives?</strong> Higher trust levels require more frequent refreshment because 
+                they grant access to more sensitive resources. Level 4 decays in 30 days, while Level 2 can last 
+                90 days without renewal.
             </div>
             
-            <h3>3.1 Trust Operations</h3>
-            <p><strong>Demotion:</strong> When trust decays or risks are detected, the level 
-            decreases. A Level 4 credential becomes Level 3 after sufficient decay.</p>
+            <h3>3.2 Trust Operations</h3>
             
-            <p><strong>Promotion:</strong> When valid heartbeats are provided, trust may increase. 
-            A Level 2 credential with a valid biometric heartbeat may be promoted to Level 3.</p>
+            <h4>Demotion</h4>
+            <p>When trust decays beyond a threshold or risks are detected, the level decreases:</p>
+            <ul>
+                <li>Level 4 → Level 3</li>
+                <li>Level 3 → Level 2</li>
+                <li>Level 2 → Level 1</li>
+                <li>Level 1 → Level 1 (remains at minimum)</li>
+            </ul>
             
-            <div class="note">
-                Promotion is limited to the credential's original issuance level—a Level 2 credential 
-                cannot become Level 4 through heartbeats alone.
-            </div>
+            <h4>Promotion</h4>
+            <p>When valid heartbeats are provided, trust may increase by one level:</p>
+            <ul>
+                <li>Level 1 → Level 2</li>
+                <li>Level 2 → Level 3</li>
+                <li>Level 3 → Level 4</li>
+                <li>Level 4 → Level 4</li>
+            </ul>
+            <p><strong>Constraint:</strong> Promotion cannot exceed the credential's original issuance level.</p>
         </section>
         
-        <!-- Credential Format -->
+        <!-- 4. Credential Format -->
         <section id="credential-format">
             <h2>4. Credential Format</h2>
-            <p>
-                A Trust Decay credential extends the standard Verifiable Credential format with confidence 
-                level information.
-            </p>
+            
+            <h3>4.1 Trust Decay Credential</h3>
+            <p>A Trust Decay credential extends the W3C Verifiable Credential data model with confidence level information.</p>
             
             <pre>{
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
-    "https://spec.sirraya.com/tdf/v1"
+    "https://w3id.org/trust-decay/v1"
   ],
   "id": "urn:uuid:3c4c7e5d-8b2a-4f1e-9c6d-7a3b8e2f5c1d",
   "type": ["VerifiableCredential", "TrustDecayCredential"],
@@ -445,7 +517,7 @@
   "credentialSubject": {
     "id": "did:example:holder456",
     "confidenceLevel": "Level4",
-    "assessmentPolicy": "https://spec.sirraya.com/tdf/policies/v1",
+    "assessmentPolicy": "https://w3id.org/trust-decay/policies/v1",
     "validFrom": "2026-04-01T10:00:00Z",
     "validUntil": "2027-04-01T10:00:00Z"
   },
@@ -458,24 +530,25 @@
   }
 }</pre>
             
-            <h3>4.1 Credential Fields</h3>
-            <ul>
-                <li><code>confidenceLevel</code> — The initial trust level (Level1, Level2, Level3, Level4)</li>
-                <li><code>assessmentPolicy</code> — URL pointing to the policy used to assess trust</li>
-                <li><code>validFrom</code> — Timestamp from which trust decay is calculated</li>
-                <li><code>validUntil</code> — Absolute expiration after which credential cannot be used</li>
-            </ul>
+            <h3>4.2 Credential Subject Fields</h3>
+            <table>
+                <thead><tr><th>Field</th><th>Required</th><th>Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>id</code></td><td>Yes</td><td>string (DID)</td><td>Holder's decentralized identifier</td></tr>
+                    <tr><td><code>confidenceLevel</code></td><td>Yes</td><td>string</td><td>One of: "Level1", "Level2", "Level3", "Level4"</td></tr>
+                    <tr><td><code>assessmentPolicy</code></td><td>Yes</td><td>URL</td><td>Policy used for trust assessment</td></tr>
+                    <tr><td><code>validFrom</code></td><td>Yes</td><td>datetime</td><td>Timestamp from which decay is calculated</td></tr>
+                    <tr><td><code>validUntil</code></td><td>Yes</td><td>datetime</td><td>Absolute expiration timestamp</td></tr>
+                </tbody>
+            </table>
         </section>
         
-        <!-- Decay Calculation -->
+        <!-- 5. Trust Decay Calculation -->
         <section id="decay-calculation">
             <h2>5. Trust Decay Calculation</h2>
-            <p>
-                The current trust level is calculated using a deterministic formula that considers 
-                age, cryptographic strength, and available proofs.
-            </p>
             
             <h3>5.1 Decay Formula</h3>
+            <p>The current trust level is calculated using a deterministic formula:</p>
             <pre>DecayFactor = 2 ^ (-(EffectiveAge × CryptoMultiplier) / HalfLife)</pre>
             
             <p>Where:</p>
@@ -485,78 +558,108 @@
                 <li><strong>HalfLife</strong> = Based on initial confidence level (30, 90, or 180 days)</li>
             </ul>
             
-            <p>The resulting trust level is:</p>
-            <ul>
-                <li>DecayFactor > 0.75 → No demotion</li>
-                <li>DecayFactor > 0.5 → Demote one level</li>
-                <li>DecayFactor > 0.25 → Demote two levels</li>
-                <li>DecayFactor ≤ 0.25 → Demote three levels (minimum trust)</li>
-            </ul>
+            <h3>5.2 Level Mapping</h3>
+            <table>
+                <thead><tr><th>Decay Factor Range</th><th>Demotion Steps</th><th>Result</th></tr></thead>
+                <tbody>
+                    <tr><td>DecayFactor > 0.75</td><td>0 steps</td><td>No demotion</td></tr>
+                    <tr><td>0.5 < DecayFactor ≤ 0.75</td><td>1 step</td><td>Demote one level</td></tr>
+                    <tr><td>0.25 < DecayFactor ≤ 0.5</td><td>2 steps</td><td>Demote two levels</td></tr>
+                    <tr><td>DecayFactor ≤ 0.25</td><td>3 steps</td><td>Demote three levels (minimum trust)</td></tr>
+                </tbody>
+            </table>
             
             <div class="example">
-                <strong>📐 Decay Example</strong><br>
-                A Level 4 credential (half-life 30 days) issued 45 days ago with no heartbeats:<br><br>
-                EffectiveAge = 45 days<br>
-                HalfLife = 30 days<br>
-                DecayExponent = -(45 × 1) / 30 = -1.5<br>
-                DecayFactor = 2 ^ (-1.5) = 0.3535<br><br>
-                0.3535 > 0.25 → Demote two levels<br>
-                Level 4 → Level 2
+                <div class="example-title">📐 Decay Example</div>
+                <p>A Level 4 credential (half-life 30 days) issued 45 days ago with no heartbeats:</p>
+                <pre>EffectiveAge = 45 days
+HalfLife = 30 days
+DecayExponent = -(45 × 1) / 30 = -1.5
+DecayFactor = 2 ^ (-1.5) = 0.3535
+
+0.3535 > 0.25 → Demote two levels
+Level 4 → Level 2</pre>
             </div>
         </section>
         
-        <!-- Proofs and Heartbeats -->
-        <section id="proofs">
-            <h2>6. Proofs and Heartbeats</h2>
-            <p>
-                Credential holders can provide cryptographic proofs to slow decay or restore trust.
-            </p>
+        <!-- 6. Proof Types and Requirements -->
+        <section id="proof-types">
+            <h2>6. Proof Types and Requirements</h2>
             
-            <h3>6.1 Proof Types</h3>
+            <h3>6.1 Required Proofs by Level</h3>
             <table>
                 <thead>
-                    <tr>
-                        <th>Proof Type</th>
-                        <th>What It Proves</th>
-                        <th>Effect on Trust</th>
-                        <th>Validity Period</th>
-                    </tr>
+                    <tr><th>Proof Type</th><th>What It Proves</th><th>Validity</th><th>Required For</th></tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>No High-Risk Activity</strong></td>
-                        <td>No security alerts in the last 24 hours</td>
-                        <td>Required for Level 2+</td>
+                        <td><strong>NoHighRisk24h</strong></td>
+                        <td>No high-risk security alerts in last 24 hours</td>
                         <td>24 hours</td>
+                        <td>Level 2, 3, 4</td>
                     </tr>
                     <tr>
-                        <td><strong>Device Consistency (7d)</strong></td>
-                        <td>Same device used for 7 days</td>
-                        <td>Enables Level 3</td>
+                        <td><strong>DeviceConsistency7d</strong></td>
+                        <td>Same device used for 7 consecutive days</td>
                         <td>7 days</td>
+                        <td>Level 3, 4</td>
                     </tr>
                     <tr>
-                        <td><strong>Device Consistency (30d)</strong></td>
-                        <td>Same device used for 30 days</td>
-                        <td>Enables Level 4</td>
+                        <td><strong>DeviceConsistency30d</strong></td>
+                        <td>Same device used for 30 consecutive days</td>
                         <td>30 days</td>
+                        <td>Level 4</td>
                     </tr>
                     <tr>
-                        <td><strong>Stable Location (72h)</strong></td>
+                        <td><strong>GeoStable72h</strong></td>
                         <td>Geographic location stable for 72 hours</td>
-                        <td>Enables Level 4</td>
                         <td>72 hours</td>
+                        <td>Level 4</td>
                     </tr>
                 </tbody>
             </table>
             
-            <h3>6.2 Heartbeat Types</h3>
-            <ul>
-                <li><strong>Biometric Heartbeat</strong> — Zero-knowledge proof confirming recent biometric verification. Resets trust decay (max 3 resets).</li>
-                <li><strong>Proof of Possession</strong> — Demonstrates continued control of private key. Can promote trust one level.</li>
-                <li><strong>Liveness Check</strong> — Confirms physical presence. Restores trust to initial level.</li>
-            </ul>
+            <h3>6.2 Zero-Knowledge Proof Structure</h3>
+            <pre>{
+  "proofType": "NoHighRisk24h",
+  "proofCommitment": "0x3c4c7e5d8b2a4f1e...",
+  "nullifierHash": "0x9c6d7a3b8e2f5c1d...",
+  "generatedAt": "2026-04-01T10:00:00Z",
+  "validUntil": "2026-04-02T10:00:00Z",
+  "classificationMaintained": true
+}</pre>
+        </section>
+        
+        <!-- 7. Heartbeat Mechanism -->
+        <section id="heartbeat">
+            <h2>7. Heartbeat Mechanism</h2>
             
+            <h3>7.1 Heartbeat Types</h3>
+            <table>
+                <thead><tr><th>Type</th><th>Description</th><th>Effect on Trust</th><th>Limits</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Biometric Heartbeat</strong></td>
+                        <td>Zero-knowledge proof of recent biometric verification</td>
+                        <td>Resets decay timer (up to 3 times)</td>
+                        <td>Maximum 3 resets per credential</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Proof of Possession</strong></td>
+                        <td>Demonstrates continued control of private key</td>
+                        <td>Promotes trust one level</td>
+                        <td>Cannot exceed initial level</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Liveness Check</strong></td>
+                        <td>Confirms physical presence of holder</td>
+                        <td>Restores to initial level</td>
+                        <td>Full restoration only</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>7.2 Heartbeat Format</h3>
             <pre>{
   "method": "ZkBiometric",
   "issuedAt": "2026-04-01T12:00:00Z",
@@ -567,52 +670,23 @@
 }</pre>
         </section>
         
-        <!-- Risk Signals -->
+        <!-- 8. Risk Signals -->
         <section id="risk-signals">
-            <h2>7. Risk Signals</h2>
-            <p>
-                Risk signals indicate potential security concerns and can trigger immediate trust reduction.
-            </p>
+            <h2>8. Risk Signals</h2>
             
-            <h3>7.1 Signal Types</h3>
+            <h3>8.1 Signal Types and Actions</h3>
             <table>
-                <thead>
-                    <tr>
-                        <th>Signal Type</th>
-                        <th>Description</th>
-                        <th>Default Action</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Signal Type</th><th>Description</th><th>Default Action</th><th>Duration</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td><strong>Device Change</strong></td>
-                        <td>Authentication from a new device</td>
-                        <td>Demote to Level 2</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Geographic Anomaly</strong></td>
-                        <td>Location inconsistent with normal behavior</td>
-                        <td>Temporary demotion (2 hours)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Behavioral Anomaly</strong></td>
-                        <td>Unusual usage patterns detected</td>
-                        <td>Require heartbeat (15 min)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Concurrent Session</strong></td>
-                        <td>Multiple simultaneous logins</td>
-                        <td>Depends on severity</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Velocity Anomaly</strong></td>
-                        <td>Unusually rapid actions</td>
-                        <td>Depends on severity</td>
-                    </tr>
+                    <tr><td>Device Change</td><td>Authentication from a new/unrecognized device</td><td>Demote to Level 2</td><td>Until resolved</td></tr>
+                    <tr><td>Geographic Anomaly</td><td>Location inconsistent with normal behavior</td><td>Temporary demotion</td><td>2 hours</td></tr>
+                    <tr><td>Behavioral Anomaly</td><td>Unusual usage patterns detected</td><td>Require heartbeat</td><td>15 minutes</td></tr>
+                    <tr><td>Concurrent Session</td><td>Multiple simultaneous logins</td><td>Severity-dependent</td><td>Variable</td></tr>
+                    <tr><td>Velocity Anomaly</td><td>Unusually rapid actions</td><td>Severity-dependent</td><td>Variable</td></tr>
                 </tbody>
             </table>
             
-            <h3>7.2 Severity Levels</h3>
+            <h3>8.2 Severity Levels</h3>
             <ul>
                 <li><strong>Low</strong> — Minor anomaly, requires additional verification</li>
                 <li><strong>Medium</strong> — Notable deviation, temporary demotion</li>
@@ -621,166 +695,95 @@
             </ul>
         </section>
         
-        <!-- Cryptography -->
+        <!-- 9. Cryptographic Requirements -->
         <section id="cryptography">
-            <h2>8. Cryptographic Requirements</h2>
+            <h2>9. Cryptographic Requirements</h2>
             
-            <h3>8.1 Supported Algorithms</h3>
+            <h3>9.1 Supported Algorithms</h3>
             <table>
-                <thead>
-                    <tr>
-                        <th>Algorithm</th>
-                        <th>Status</th>
-                        <th>Quantum Resistance</th>
-                        <th>Requirement</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Algorithm</th><th>Status</th><th>Quantum Resistance</th><th>Requirement</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td>Ed25519</td>
-                        <td>Approved</td>
-                        <td>No</td>
-                        <td>REQUIRED</td>
-                    </tr>
-                    <tr>
-                        <td>ML-DSA-44</td>
-                        <td>Quantum Resistant</td>
-                        <td>Yes</td>
-                        <td>RECOMMENDED</td>
-                    </tr>
-                    <tr>
-                        <td>ML-DSA-65</td>
-                        <td>Quantum Resistant</td>
-                        <td>Yes</td>
-                        <td>OPTIONAL</td>
-                    </tr>
-                    <tr>
-                        <td>Hybrid Ed25519-ML-DSA</td>
-                        <td>Hybrid</td>
-                        <td>Yes</td>
-                        <td>OPTIONAL</td>
-                    </tr>
+                    <tr><td>Ed25519</td><td>Approved</td><td>No</td><td>REQUIRED</td></tr>
+                    <tr><td>ML-DSA-44</td><td>Quantum Resistant</td><td>Yes</td><td>RECOMMENDED</td></tr>
+                    <tr><td>ML-DSA-65</td><td>Quantum Resistant</td><td>Yes</td><td>OPTIONAL</td></tr>
+                    <tr><td>ML-DSA-87</td><td>Quantum Resistant</td><td>Yes</td><td>OPTIONAL</td></tr>
+                    <tr><td>Hybrid Ed25519-ML-DSA</td><td>Hybrid</td><td>Yes</td><td>OPTIONAL</td></tr>
                 </tbody>
             </table>
             
-            <h3>8.2 Quantum Considerations</h3>
-            <p>
-                Implementations SHOULD support hybrid cryptographic modes combining traditional and 
-                quantum-resistant algorithms. Cryptographic profiles affect trust calculations:
-            </p>
+            <h3>9.2 Quantum Considerations</h3>
+            <p>Cryptographic profiles affect trust calculations:</p>
             <ul>
-                <li><strong>Quantum-Resistant</strong> — No additional decay multiplier</li>
-                <li><strong>Quantum-Vulnerable</strong> — 5× decay multiplier (trust decays 5× faster)</li>
+                <li><strong>Quantum-Resistant</strong> — CryptoMultiplier = 1 (no decay penalty)</li>
+                <li><strong>Quantum-Vulnerable</strong> — CryptoMultiplier = 5 (decays 5× faster)</li>
                 <li><strong>Deprecated/Revoked</strong> — Immediate demotion to Level 1</li>
             </ul>
         </section>
         
-        <!-- Privacy -->
+        <!-- 10. Privacy Architecture -->
         <section id="privacy">
-            <h2>9. Privacy Considerations</h2>
-            <p>
-                Privacy is a foundational concern in trust assessment. This framework incorporates 
-                privacy-preserving mechanisms throughout.
-            </p>
+            <h2>10. Privacy Architecture</h2>
             
-            <h3>9.1 Pairwise Identifiers</h3>
-            <p>
-                Rather than using a global identifier, implementers SHOULD use pairwise identifiers 
-                that are unique per relationship. This prevents correlation across different services.
-            </p>
+            <h3>10.1 Pairwise Identifiers</h3>
+            <p>Instead of a global identifier, each relationship uses a unique derived identifier:</p>
             <pre>PairwiseID = HMAC(RootKey, RelationshipContext || ServiceIdentifier)</pre>
-            <p>The same holder interacting with different services uses different identifiers, making it impossible to link those interactions without the root key.</p>
+            <p>The same holder interacting with different services appears as different entities, preventing correlation without the root key.</p>
             
-            <h3>9.2 Zero-Knowledge Proofs</h3>
-            <p>
-                Risk proofs SHOULD be implemented as zero-knowledge proofs:
-            </p>
+            <h3>10.2 Zero-Knowledge Proofs</h3>
             <ul>
-                <li><strong>NoHighRisk24h</strong> — Proves no high-risk alerts exist without revealing what alerts</li>
+                <li><strong>NoHighRisk24h</strong> — Proves no high-risk alerts exist without revealing which alerts</li>
                 <li><strong>DeviceConsistency</strong> — Proves device stability without revealing device fingerprint</li>
-                <li><strong>GeoStable</strong> — Proves location stability without revealing actual location</li>
+                <li><strong>GeoStable</strong> — Proves location stability without revealing actual coordinates</li>
             </ul>
             
-            <h3>9.3 Nullifiers</h3>
-            <p>
-                Each proof includes a nullifier that prevents replay attacks while maintaining 
-                unlinkability. Nullifiers are derived from the holder's root key and a context 
-                value, ensuring they cannot be correlated across different contexts.
-            </p>
+            <h3>10.3 Nullifiers</h3>
+            <p>Each proof includes a unique nullifier derived from the holder's root key and context:</p>
+            <pre>Nullifier = SHA256(HolderDID || Epoch || SessionKey)</pre>
+            <p>This prevents replay attacks while ensuring proofs cannot be correlated across different contexts.</p>
         </section>
         
-        <!-- Implementation -->
-        <section id="implementation">
-            <h2>10. Implementation Guidelines</h2>
+        <!-- 11. Policy Evaluation -->
+        <section id="policy-evaluation">
+            <h2>11. Policy Evaluation</h2>
             
-            <h3>10.1 State Management</h3>
-            <p>Implementations SHOULD maintain credential state including:</p>
-            <ul>
-                <li>The credential itself and its current trust level</li>
-                <li>All active ZK risk proofs with their validity periods</li>
-                <li>Heartbeat proofs and reset counts</li>
-                <li>Active risk indicators and temporary demotions</li>
-                <li>Timestamps of last evaluation</li>
-            </ul>
-            
-            <h3>10.2 Caching Strategy</h3>
-            <ul>
-                <li><strong>L1 (Memory)</strong> — Frequently accessed credentials, &lt; 1ms</li>
-                <li><strong>L2 (Local)</strong> — Recently accessed credentials, &lt; 10ms</li>
-                <li><strong>L3 (Distributed)</strong> — Network cache, &lt; 100ms</li>
-            </ul>
-            
-            <h3>10.3 Policy Evaluation</h3>
+            <h3>11.1 Policy Structure</h3>
             <pre>{
   "serviceId": "HighValueBanking",
   "requiredLevel": "Level3",
   "requiredProofs": ["NoHighRisk24h", "DeviceConsistency30d"],
   "maxCredentialAge": 604800,
   "acceptHeartbeats": true,
-  "requireQuantumReady": false
+  "requireQuantumReady": false,
+  "allowTemporaryDemotion": false
 }</pre>
             
-            <h3>10.4 Decision Types</h3>
-            <ul>
-                <li><strong>Granted</strong> — All requirements satisfied. Access permitted.</li>
-                <li><strong>Reauthentication Required</strong> — Credentials expired or missing proofs.</li>
-                <li><strong>Denied</strong> — Access refused with fallback action.</li>
-            </ul>
+            <h3>11.2 Decision Types</h3>
+            <table>
+                <thead><tr><th>Decision</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Granted</strong></td><td>All requirements satisfied. Access permitted.</td></tr>
+                    <tr><td><strong>Reauthentication Required</strong></td><td>Credentials expired or missing required proofs.</td></tr>
+                    <tr><td><strong>Denied</strong></td><td>Access refused with fallback action (heartbeat or in-person).</td></tr>
+                </tbody>
+            </table>
         </section>
         
-        <!-- Security -->
+        <!-- 12. Security Considerations -->
         <section id="security">
-            <h2>11. Security Considerations</h2>
+            <h2>12. Security Considerations</h2>
             
-            <h3>11.1 Attack Mitigations</h3>
+            <h3>12.1 Attack Mitigations</h3>
             <table>
-                <thead>
-                    <tr>
-                        <th>Attack Type</th>
-                        <th>Mitigation</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Attack Type</th><th>Mitigation</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td>Replay Attacks</td>
-                        <td>Nonces in heartbeats, timestamps, nullifiers in ZK proofs</td>
-                    </tr>
-                    <tr>
-                        <td>Key Compromise</td>
-                        <td>Key rotation protocol with grace periods and revocation</td>
-                    </tr>
-                    <tr>
-                        <td>Sybil Attacks</td>
-                        <td>Proof-of-work for node identifiers, reputation systems</td>
-                    </tr>
-                    <tr>
-                        <td>Man-in-the-Middle</td>
-                        <td>End-to-end encryption with authenticated key exchange</td>
-                    </tr>
+                    <tr><td>Replay Attacks</td><td>Nonces in heartbeats, timestamps, nullifiers in ZK proofs</td></tr>
+                    <tr><td>Key Compromise</td><td>Key rotation protocol with grace periods and revocation</td></tr>
+                    <tr><td>Sybil Attacks</td><td>Proof-of-work for node identifiers, reputation systems</td></tr>
+                    <tr><td>Man-in-the-Middle</td><td>End-to-end encryption with authenticated key exchange</td></tr>
                 </tbody>
             </table>
             
-            <h3>11.2 Key Rotation</h3>
+            <h3>12.2 Key Rotation Protocol</h3>
             <ol>
                 <li><strong>Pre-rotation</strong> — Generate new keys, create updated DID Document</li>
                 <li><strong>Rotation</strong> — Sign rotation proof, accept both old and new keys</li>
@@ -788,30 +791,28 @@
             </ol>
         </section>
         
-        <!-- References -->
+        <!-- 13. References -->
         <section id="references">
-            <h2>12. References</h2>
+            <h2>13. References</h2>
             
-            <h3>12.1 Normative References</h3>
+            <h3>13.1 Normative References</h3>
             <ul>
                 <li><a href="https://www.w3.org/TR/did-core/">W3C Decentralized Identifiers (DIDs) v1.0</a></li>
                 <li><a href="https://www.w3.org/TR/vc-data-model-2.0/">W3C Verifiable Credentials Data Model v2.0</a></li>
                 <li><a href="https://www.rfc-editor.org/rfc/rfc8032">RFC 8032: Edwards-Curve Digital Signature Algorithm (EdDSA)</a></li>
             </ul>
             
-            <h3>12.2 Informative References</h3>
+            <h3>13.2 Informative References</h3>
             <ul>
-                <li><a href="https://github.com/sirrayalabs/trust-decay-framework">Sirraya Labs — Trust Decay Framework Repository</a></li>
                 <li><a href="https://www.w3.org/TR/vc-zkp/">W3C Verifiable Credentials with Zero-Knowledge Proofs</a></li>
+                <li><a href="https://datatracker.ietf.org/doc/draft-ietf-lamps-cms-ml-dsa/">ML-DSA for Cryptographic Message Syntax</a></li>
             </ul>
         </section>
         
         <!-- Footer -->
         <div class="footer">
-            <p>Trust Decay Framework (TDF) — Version 1.0.0</p>
-            <p>Developed by Sirraya Labs • Open Source • MIT License</p>
-            <p><a href="https://github.com/sirrayalabs/trust-decay-framework" style="color: #3b82f6;">GitHub Repository</a> | 
-               <a href="https://spec.sirraya.com/tdf" style="color: #3b82f6;">Specification Home</a></p>
+            <p><strong>Trust Decay Framework (TDF)</strong> — Version 1.0.0 · Editor's Draft · April 2026</p>
+            <p>Developed by Sirraya Labs · MIT License · <a href="https://github.com/sirrayalabs/trust-decay-framework">GitHub Repository</a></p>
         </div>
     </div>
 </body>
