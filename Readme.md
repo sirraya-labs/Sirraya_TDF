@@ -164,9 +164,7 @@ The Trust Decay Framework is built on and compatible with:
 |----------|-----------|
 | **W3C DID Core 1.0** | Decentralized Identifiers for subjects and issuers |
 | **W3C VC Data Model 2.0** | Verifiable Credential structure and proofs |
-| **W3C VC ZKP** | Zero-knowledge proof integration |
 | **RFC 8032 (Ed25519)** | Digital signatures |
-| **Universal DID-Native Addressing (UDNA)** | Identity-based network addressing |
 
 ---
 
